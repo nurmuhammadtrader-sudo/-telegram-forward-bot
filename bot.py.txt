@@ -1,0 +1,29 @@
+Nurmuhammad, [17-avg, 2026 00:25 da]
+import asyncio
+from telethon import TelegramClient, events
+
+API_ID = 37220589 
+API_HASH = "37686480055f83f96959207001d882d5"
+
+SOURCE = -1004385342156
+TARGET = -1001235383010
+
+client = TelegramClient("forward_session", API_ID, API_HASH)
+
+
+@client.on(events.NewMessage(chats=SOURCE))
+async def forward_message(event):
+    try:
+        await client.forward_messages(TARGET, event.message)
+        print("Forward qilindi:", event.message.id)
+    except Exception as e:
+        print("Xato:", e)
+
+
+async def main():
+    print("Bot ishga tushdi...")
+    await client.start()
+    await client.run_until_disconnected()
+
+
+asyncio.run(main())
